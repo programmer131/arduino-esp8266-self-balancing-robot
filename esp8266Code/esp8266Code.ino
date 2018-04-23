@@ -1,4 +1,5 @@
-
+#include <ESP8266mDNS.h>
+#include <ESP8266HTTPUpdateServer.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
 
@@ -11,6 +12,7 @@ const char* password = "";
 const char* host = "robot";
 
 ESP8266WebServer server(80);
+ESP8266HTTPUpdateServer httpUpdater;
 
 /*********HTML Contents************/
 const char get_root[]="/";
@@ -82,7 +84,10 @@ void setup ( void ) {
     server.on ("/Tune",handleTuning);
     server.on (get_jquery_js,handlejQuery);      
     server.onNotFound ( handleNotFound );
+	MDNS.begin(host);
+    httpUpdater.setup(&server);
     server.begin();
+    MDNS.addService("http", "tcp", 80);
 }
 
 void loop ( void ) {
