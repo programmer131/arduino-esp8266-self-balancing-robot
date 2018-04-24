@@ -1,0 +1,109 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+header {
+    background-color: #27ace5;
+}
+body {
+    font-family: calibri;
+}
+header h1 {
+    text-align: center;
+    font-size: 4em;
+    color: white;
+    padding: 10px;
+}
+header img {
+    width: 110px;
+    margin-top: 10px;
+    float: left;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+li {
+    float: left;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+li a:hover:not(.active) {
+    background-color: #111;
+}
+.active {
+    background-color: #4CAF50;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+table#inputsTable {
+    border-collapse: collapse;
+    width: 70%;
+}
+th,
+td {
+    text-align: left;
+    padding: 8px;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2
+}
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+section {
+    width: 60%;
+    margin: 10px;
+}
+.button {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+}
+.button:hover {
+    background-color: #3e8e41
+}
+.button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+input[type=text],
+select {
+    width: 25%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.container {
+    width: 250px;
+    margin: 0;
+    text-align: center;
+}
+.gauge {
+    width:  250px;
+    height: 250px;
+}

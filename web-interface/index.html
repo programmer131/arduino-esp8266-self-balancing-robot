@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>esp</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <script src="js/zepto.min.js"></script>
+
+    <script>	
+        function tuneParam(paramToTune,sign) 
+		{var someUrl = "/Tune?"+paramToTune+"="+sign;
+            $.ajax({url: someUrl,dataType: "text", 
+			success: function(response) {
+			if (!$.trim(response)){   
+				
+			}
+			else{   
+				alert("configured PID param:" + response);
+			}
+            }})}
+			
+		function tuneValue(paramToTune,val) 
+		{var someUrl = "/Tune?"+paramToTune+"="+val;
+            $.ajax({url: someUrl,dataType: "text", 
+			success: function(response) {
+			if (!$.trim(response)){   
+				
+			}
+			else{   
+				alert("configured PID param:" + response);
+			}
+            }})}			
+    </script>
+</head>
+<body>
+    <header>        
+        <h1>ESP8266 BASED WEBSERVER</h1>
+    </header>
+
+    <nav>
+
+        <ul>
+            <li><a class="active" href="index.html">Digital Outputs</a>
+            </li>
+            <li><a href="val.html">About project</a>
+            </li>            
+        </ul>
+
+    </nav>
+
+    <section>
+        <table>
+            <tr>
+                <th>Parameter</th>
+                <th>Increment</th>
+				<th>Decrement</th>
+				<th>value</th>
+            </tr>
+            <tr>
+                <td>Target Angle </td>
+                <td>
+                    <button class="button" onclick="tuneParam('angle','H')">Angle+0.5</button>
+                </td>
+				<td>
+					<button class="button" onclick="tuneParam('angle','L')">Angle-0.5</button>
+				</td>
+				<td>
+					<input type="text" id="angle" maxlength="6" placeholder="...">
+					<button class="button" onclick="tuneValue('angle',document.getElementById('angle').value);">Update</button>
+				</td>
+            </tr>
+            <tr>
+                <td>Kp</td>
+                <td>
+                    <button class="button" onclick="tuneParam('p','H')">Kp+0.5</button>
+				</td>
+				<td>
+                    <button class="button" onclick="tuneParam('p','L')">Kp-0.5</button>
+				</td>
+				<td>
+					<input type="text" id="kp" maxlength="6" placeholder="...">
+					<button class="button" onclick="tuneValue('p',document.getElementById('kp').value);">Update</button>
+				</td>
+            </tr>
+            <tr>
+                <td>Ki</td>
+                
+                <td>
+                    <button class="button" onclick="tuneParam('i','H')">Ki+0.5</button>
+				</td>
+				<td>
+                    <button class="button" onclick="tuneParam('i','L')">Ki-0.5</button>
+				</td>
+				<td>
+					<input type="text" id="ki" maxlength="6" placeholder="...">
+					<button class="button" onclick="tuneValue('i',document.getElementById('ki').value);">Update</button>
+				</td>
+            </tr>
+            <tr>
+                <td>Kd</td>
+                <td>
+                    <button class="button" onclick="tuneParam('d','H')">Kd+0.01</button>
+				</td>
+				<td>
+                    <button class="button" onclick="tuneParam('d','L')">Kd-0.01</button>
+				</td>
+				<td>
+					<input type="text" id="kd" maxlength="6" placeholder="...">
+					<button class="button" onclick="tuneValue('d',document.getElementById('kd').value);">Update</button>
+				</td>
+            </tr>
+			<tr>
+                <td>Save</td>
+                <td>
+                    <button class="button" onclick="tuneParam('ok','1')">done</button>
+				</td>
+            </tr>
+			<tr>
+                <td>Move</td>
+                <td>
+                    <button class="button" onclick="tuneParam('m','F')">Forward</button>
+				</td>
+				<td>
+                    <button class="button" onclick="tuneParam('m','B')">Backward</button>
+				</td>
+            </tr>
+			
+        </table>
+    </section>
+
+</body>
+
+</html>
