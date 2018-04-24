@@ -42,9 +42,17 @@ float Ki=  0;
 float targetAngle = 3.0;
 */
 
+/*
 float Kp=  47.50;
 float Kd=  -0.53;
 float Ki=  62.50;
+float targetAngle = 0.50;
+*/
+
+
+float Kp=  20.0;
+float Kd=0  ;
+float Ki=  0;
 float targetAngle = 0.50;
 
 #define sampleTime  0.005
@@ -170,6 +178,22 @@ void loop() {
     else if(inputString.equals("p:L\r\n"))
     {
       Kp-=0.5;
+    }
+  	else if(inputString.indexOf("angle:")!=-1)
+  	{
+      targetAngle=(inputString.substring(6)).toFloat();
+  	}
+    else if(inputString.indexOf("p:")!=-1)
+    {
+      Kp=(inputString.substring(2)).toFloat();
+    }
+    else if(inputString.indexOf("d:")!=-1)
+    {      
+      Kd=(inputString.substring(2)).toFloat();
+    }
+    else if(inputString.indexOf("i:")!=-1)
+    {      
+      Ki=(inputString.substring(2)).toFloat();
     }
     else if(inputString.equals("ok:1\r\n"))
     {
