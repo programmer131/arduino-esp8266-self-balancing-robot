@@ -50,10 +50,13 @@ float targetAngle = 0.50;
 */
 
 
-float Kp=  20.0;
-float Kd=0  ;
-float Ki=  0;
-float targetAngle = 0.50;
+float Kp=  45.0;
+float Kd=-0.2  ;
+float Ki=  135;
+float targetAngle = 1.50;
+
+float motorADutyOffset=1;
+float motorBDutyOffset=1;
 
 #define sampleTime  0.005
 
@@ -73,20 +76,20 @@ void setMotors(int leftMotorSpeed, int rightMotorSpeed) {
   Serial.println(-rightMotorSpeed);
   */
   if(leftMotorSpeed >= 0) {
-    analogWrite(leftMotorPWMPin, leftMotorSpeed);
+    analogWrite(leftMotorPWMPin, leftMotorSpeed*motorADutyOffset);
     analogWrite(leftMotorDirPin, 0);
   }
   else {
     analogWrite(leftMotorPWMPin,0);
-    analogWrite(leftMotorDirPin,  -leftMotorSpeed);
+    analogWrite(leftMotorDirPin,  -leftMotorSpeed*motorADutyOffset);
   }
   if(rightMotorSpeed >= 0) {
-    analogWrite(rightMotorPWMPin, rightMotorSpeed);
+    analogWrite(rightMotorPWMPin, rightMotorSpeed*motorBDutyOffset);
     analogWrite(rightMotorDirPin, 0);
   }
   else {
     analogWrite(rightMotorPWMPin,0);
-    analogWrite(rightMotorDirPin, -rightMotorSpeed);
+    analogWrite(rightMotorDirPin, -rightMotorSpeed*motorBDutyOffset);
   }
 }
 
@@ -107,8 +110,8 @@ void init_PID() {
 }
 
 void setup() {
-  delay(5000);
   Serial.begin(115200);
+  delay(2000);
   inputString.reserve(200);
   // set the motor control and PWM pins to output mode
   pinMode(leftMotorPWMPin, OUTPUT);
@@ -128,7 +131,6 @@ void setup() {
   // initialize PID sampling loop
   init_PID();
 }
-
 void loop() {
   // read acceleration and gyroscope values
   accY = mpu.getAccelerationY();
@@ -138,16 +140,7 @@ void loop() {
   motorPower = constrain(motorPower, -255, 255);
   setMotors(motorPower, motorPower);
   if (stringComplete) {
-    //Serial.println(inputString);/
-    if(inputString.equals("m:F\r\n"))
-    {
-      setMotors(-motorPower, motorPower);
-    }
-    else if(inputString.equals("m:B\r\n"))
-    {
-      setMotors(motorPower, -motorPower);
-    }
-    else if(inputString.equals("angle:H\r\n"))
+    if(inputString.equals("angle:H\r\n"))
     {
      targetAngle+=0.5;
     }
@@ -178,7 +171,24 @@ void loop() {
     else if(inputString.equals("p:L\r\n"))
     {
       Kp-=0.5;
+    }	
+	else if(inputString.equals("da:H\r\n"))
+    {
+      motorADutyOffset+=1;
+    }    
+    else if(inputString.equals("da:L\r\n"))
+    {      
+      motorADutyOffset-=1;
     }
+	else if(inputString.equals("db:H\r\n"))
+    {
+      motorBDutyOffset+=1;
+    }    
+    else if(inputString.equals("db:L\r\n"))
+    {
+      motorBDutyOffset-=1;
+    }
+  	
   	else if(inputString.indexOf("angle:")!=-1)
   	{
       targetAngle=(inputString.substring(6)).toFloat();
@@ -195,6 +205,14 @@ void loop() {
     {      
       Ki=(inputString.substring(2)).toFloat();
     }
+	else if(inputString.indexOf("dutyA:")!=-1)
+	{
+		motorADutyOffset=(inputString.substring(6)).toFloat();
+	}
+	else if(inputString.indexOf("dutyB:")!=-1)
+	{
+		motorBDutyOffset=(inputString.substring(6)).toFloat();
+	}
     else if(inputString.equals("ok:1\r\n"))
     {
       Serial.print(" Kp:");
@@ -204,7 +222,11 @@ void loop() {
       Serial.print(" Kd:");
       Serial.print(Kd);
       Serial.print(" targetAngle:");
-      Serial.println(targetAngle);
+   	  Serial.print(targetAngle);
+	  Serial.print(" A offset:");
+   	  Serial.print(motorADutyOffset);
+	  Serial.print(" B offset:");
+   	  Serial.println(motorBDutyOffset);	 
     }
     inputString = "";
     stringComplete = false;
