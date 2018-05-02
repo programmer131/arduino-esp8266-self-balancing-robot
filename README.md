@@ -8,3 +8,11 @@ https://youtu.be/gLAljH-oAIQ
 
 All instructions here
  https://www.instructables.com/id/Self-Balancing-Robot-With-ESP8266-WiFi-PID-Tuning-/
+
+To do
+
+1. update webpage, add a text field to show pid configured data, remove JS alert.
+
+2. robot sometimes goes out of control, need fix
+
+3. utilize ESP EEPROM to store configured PID parameters,
